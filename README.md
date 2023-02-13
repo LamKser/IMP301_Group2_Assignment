@@ -1,5 +1,5 @@
 # IMP301_Group2_Assignment
-## Topic:
+## Topic: Fuzzy enhancement and image stitching
 ### Members:
 * Nguyễn Gia Bách
 * Đinh Hoàng Lâm

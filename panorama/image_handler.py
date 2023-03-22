@@ -6,6 +6,9 @@ from .stitching_error import StitchingError
 
 class ImageHandler:
 
+    # DEFAULT_MEDIUM_MEGAPIX = 1
+    # DEFAULT_LOW_MEGAPIX = 1
+    # DEFAULT_FINAL_MEGAPIX = 1
     DEFAULT_MEDIUM_MEGAPIX = 0.6
     DEFAULT_LOW_MEGAPIX = 0.1
     DEFAULT_FINAL_MEGAPIX = -1
@@ -17,12 +20,12 @@ class ImageHandler:
         final_megapix=DEFAULT_FINAL_MEGAPIX,
     ):
 
-        if medium_megapix < low_megapix:
-            raise StitchingError(
-                "Medium resolution megapix need to be "
-                "greater or equal than low resolution "
-                "megapix"
-            )
+        # if medium_megapix < low_megapix:
+        #     raise StitchingError(
+        #         "Medium resolution megapix need to be "
+        #         "greater or equal than low resolution "
+        #         "megapix"
+        #     )
 
         self.medium_scaler = MegapixDownscaler(medium_megapix)
         self.low_scaler = MegapixDownscaler(low_megapix)

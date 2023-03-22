@@ -25,7 +25,7 @@ class Stitcher:
         "range_width": FeatureMatcher.DEFAULT_RANGE_WIDTH,
         "try_use_gpu": False,
         "match_conf": None,
-        "confidence_threshold": Subsetter.DEFAULT_CONFIDENCE_THRESHOLD,
+        "confidence_threshold": 0.2,
         "matches_graph_dot_file": Subsetter.DEFAULT_MATCHES_GRAPH_DOT_FILE,
         "estimator": CameraEstimator.DEFAULT_CAMERA_ESTIMATOR,
         "adjuster": CameraAdjuster.DEFAULT_CAMERA_ADJUSTER,

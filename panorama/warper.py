@@ -58,13 +58,16 @@ class Warper:
     def create_and_warp_mask(self, size, camera, aspect=1):
         warper = cv.PyRotationWarper(self.warper_type, self.scale * aspect)
         mask = 255 * np.ones((size[1], size[0]), np.uint8)
-        _, warped_mask = warper.warp(
+        tmp, warped_mask = warper.warp(
             mask,
             Warper.get_K(camera, aspect),
             camera.R,
             cv.INTER_NEAREST,
             cv.BORDER_CONSTANT,
         )
+
+        # cv.imshow('', warped_mask)
+        # cv.waitKey(0)
         return warped_mask
 
     def warp_rois(self, sizes, cameras, aspect=1):

@@ -7,8 +7,8 @@ import cv2
 
 
 from panorama.stitcher import Stitcher
-# from fuzzy import fuzzy_contrast_enhance
-from fuzzy.image_enhancement import ImageEnhancement
+from fuzzybach import fuzzy_contrast_enhance
+# from fuzzy.image_enhancement import ImageEnhancement
 
 def plot_image_grid(images):
     '''Plot a grid of images'''
@@ -16,7 +16,7 @@ def plot_image_grid(images):
         number_of_columns = 2
     else:
         number_of_columns = 4
-    number_of_rows = int(len(images) / number_of_columns) + int(len(images) % number_of_columns)
+    number_of_rows = len(images) // number_of_columns + len(images) % number_of_columns
     total_columns = []
 
     # print('Number of rows:', number_of_rows)
@@ -30,6 +30,7 @@ def plot_image_grid(images):
         col.image(image, f'Image {i}')
 
 
+@st.cache_data
 def read_image(file):
     image = Image.open(file)
     image_array = np.array(image)
@@ -48,14 +49,14 @@ def member_name():
 
 if __name__ == '__main__':
 
-    panorama = Stitcher(**{"detector": "sift", "confidence_threshold": 0.2})
+    panorama = Stitcher()
     # member_name()
 
-    st.title('Group 2 - IMP301 - Image processing')
+    st.title(':sun_with_face: Group 2 - IMP301')
     st.title('Topic: Panorama Image')
     
     # Upload images
-    file_upload = st.sidebar.file_uploader('Upload images', accept_multiple_files=True)
+    file_upload = st.sidebar.file_uploader(':point_down: **Upload images**', accept_multiple_files=True)
     fuzzy = st.sidebar.checkbox('Fuzzy enhancement')
 
     number_uploaded_images = len(file_upload)
@@ -75,18 +76,14 @@ if __name__ == '__main__':
 
     # Panorama
     if len(imgs_uploaded) >= 2:
-        st.success('Panorama result', icon="✅")
+        st.success('Result', icon="✅")
         panorama_img = panorama.stitch(imgs_uploaded)
+        cv2.imwrite('images/results/panorama.jpg', panorama_img[:, :, ::-1])
         st.image(panorama_img)
         if fuzzy:
-            # st.image(fuzzy_contrast_enhance(panorama_img))
-            img_enh = ImageEnhancement(panorama_img, 2, 2, 1, True)
-            result = img_enh.enhance_colored_img()
-            st.image(result)
-
-    # Fuzzy
-    
-    # if fuzzy:
-    #     st.write('Off fuzzy')
-    # else:
-    #     st.write('')
+            st.subheader('Fuzzy enhancement')
+            # fuzzy_class = ImageEnhancement(panorama_img, 2, 2, 1, True)
+            # fuzz_img = fuzzy_class.enhance_colored_img()
+            fuzz_img = fuzzy_contrast_enhance(panorama_img)
+            cv2.imwrite('images/results/fuzzy.jpg', fuzz_img[:, :, ::-1])
+            st.image(fuzz_img)

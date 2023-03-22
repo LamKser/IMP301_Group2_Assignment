@@ -25,13 +25,19 @@ class Subsetter:
     def subset(self, img_names, img_sizes, imgs, features, matches):
         # self.save_matches_graph_dot_file(img_names, matches)
         indices = self.get_indices_to_keep(features, matches)
-
+        # print('Total i:', len(indices))
         img_names = Subsetter.subset_list(img_names, indices)
         # print('Image names:', img_names)
         img_sizes = Subsetter.subset_list(img_sizes, indices)
         imgs = Subsetter.subset_list(imgs, indices)
         features = Subsetter.subset_list(features, indices)
         matches = Subsetter.subset_matches(matches, indices)
+
+        # print(matches)
+        # for i in matches:
+        #     print(dir(i))
+        #     print(i.getInliers)
+        #     break
         return img_names, img_sizes, imgs, features, matches
 
     # def save_matches_graph_dot_file(self, img_names, pairwise_matches):

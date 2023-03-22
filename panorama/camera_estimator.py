@@ -21,11 +21,9 @@ class CameraEstimator:
     def estimate(self, features, pairwise_matches):
         b, cameras = self.estimator.apply(features, pairwise_matches, None)
         # print(b.shape)
-        
+        # print(cameras.R)
         if not b:
             raise StitchingError("Homography estimation failed.")
         for cam in cameras:
-            # print(cam.R.dtype)
-            
             cam.R = cam.R.astype(np.float32)
         return cameras

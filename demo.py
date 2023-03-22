@@ -39,16 +39,6 @@ def read_image(file):
     return image_array
 
 
-def member_name():
-    with st.sidebar:
-        st.write('Đinh Hoàng Lâm')
-        st.write('Trần Duy Ngọc Bảo')
-        st.write('Nguyễn Gia Bách')
-        st.write('Nguyễn Cao Trí')
-        st.write('Đặng Chí Thanh')
-        st.write('Dương Viễn Thạch')
-
-
 if __name__ == '__main__':
 
     panorama = Stitcher()
@@ -63,10 +53,12 @@ if __name__ == '__main__':
     # User choices
     panorama_status = st.sidebar.checkbox('Create panorama')
 
-    fuzzy_status = st.sidebar.radio('Fuzzy enhancement',
-                                    ('No enhancement', 'Enhance input', 'Enhance output', 'Enhance both'))
-    # fuzzy = st.sidebar.checkbox('Fuzzy enhancement input images')
-    # fuzzy = st.sidebar.checkbox('Fuzzy enhancement panorama images')
+    fuzzy_status = st.sidebar.radio(':point_down: **Fuzzy enhancement**',
+                                    ('No enhancement', 
+                                    #  'Enhance input', 
+                                     'Enhance output', 
+                                    #  'Enhance both'
+                                     ))
 
     number_uploaded_images = len(file_upload)
     imgs_uploaded = []
@@ -86,7 +78,7 @@ if __name__ == '__main__':
         st.info('Input images', icon="ℹ️")
         plot_image_grid(imgs_uploaded)
 
-        if fuzzy_status   == 'Enhance input':
+        if fuzzy_status   == 'Enhance input' or fuzzy_status == 'Enhance both':
             st.info('Fuzzy input images', icon="ℹ️")
             plot_image_grid(fuzzy_imgs)
 
@@ -103,14 +95,14 @@ if __name__ == '__main__':
 
             st.image(panorama_img, caption='Panorama')
 
-        elif fuzzy_status   == 'Enhance input':
-            start_pano = time()
-            panorama_img = panorama.stitch(fuzzy_imgs)
-            end_pano = time()
-            print('Panorama time:', end_pano - start_pano)
-            cv2.imwrite('images/results/enh_inp_panorama.jpg', panorama_img[:, :, ::-1])
+        # elif fuzzy_status   == 'Enhance input':
+        #     start_pano = time()
+        #     panorama_img = panorama.stitch(fuzzy_imgs)
+        #     end_pano = time()
+        #     print('Panorama time:', end_pano - start_pano)
+        #     cv2.imwrite('images/results/enh_inp_panorama.jpg', panorama_img[:, :, ::-1])
 
-            st.image(panorama_img, caption='Panorama')
+        #     st.image(panorama_img, caption='Panorama')
 
         elif fuzzy_status == 'Enhance output':
             panorama_img = panorama.stitch(imgs_uploaded)
@@ -123,13 +115,13 @@ if __name__ == '__main__':
             st.image(panorama_img, caption='Panorama')
             st.image(fuzz_img, caption='Fuzzy enhance')
 
-        elif fuzzy_status == 'Enhance both':
-            panorama_img = panorama.stitch(fuzzy_imgs)
-            start_fuzzy = time()
-            fuzz_img = fuzzy_contrast_enhance(panorama_img)
-            end_fuzzy = time()
-            print('Fuzzy time:', end_fuzzy - start_fuzzy)
-            cv2.imwrite('images/results/both.jpg', fuzz_img[:, :, ::-1])
-            
-            st.image(fuzz_img, caption='Fuzzy enhance')
+        # elif fuzzy_status == 'Enhance both':
+        #     panorama_img = panorama.stitch(fuzzy_imgs)
+        #     start_fuzzy = time()
+        #     fuzz_img = fuzzy_contrast_enhance(panorama_img)
+        #     end_fuzzy = time()
+        #     print('Fuzzy time:', end_fuzzy - start_fuzzy)
+        #     cv2.imwrite('images/results/both.jpg', fuzz_img[:, :, ::-1])
+
+        #     st.image(fuzz_img, caption='Fuzzy enhance')
 

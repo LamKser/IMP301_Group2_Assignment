@@ -1,4 +1,6 @@
 from io import BytesIO
+from time import time
+
 
 from PIL import Image
 import streamlit as st
@@ -77,13 +79,23 @@ if __name__ == '__main__':
     # Panorama
     if len(imgs_uploaded) >= 2:
         st.success('Result', icon="✅")
+
+        start_pano = time()
         panorama_img = panorama.stitch(imgs_uploaded)
+        end_pano = time()
+        print('Panorama time:', end_pano - start_pano)
+
         cv2.imwrite('images/results/panorama.jpg', panorama_img[:, :, ::-1])
         st.image(panorama_img)
         if fuzzy:
             st.subheader('Fuzzy enhancement')
             # fuzzy_class = ImageEnhancement(panorama_img, 2, 2, 1, True)
             # fuzz_img = fuzzy_class.enhance_colored_img()
+            
+            start_fuzzy = time()
             fuzz_img = fuzzy_contrast_enhance(panorama_img)
+            end_fuzzy = time()
+            print('Fuzzy time:', end_fuzzy - start_fuzzy)
+
             cv2.imwrite('images/results/fuzzy.jpg', fuzz_img[:, :, ::-1])
             st.image(fuzz_img)
